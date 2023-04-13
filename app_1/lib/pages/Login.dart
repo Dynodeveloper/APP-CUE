@@ -20,6 +20,7 @@ class _LoginPage extends State<LoginPage> {
     return firebaseApp;
   }
 
+
   @override //fondo base
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,9 +48,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _googleSignIn = GoogleSignIn();
+  bool _isLoading = false;
+
+  void _signInWithGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        // Autenticación con éxito
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (e) {
+      // Manejo de errores
+      print(e);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   //Login Function
   static Future<User?> loginUsingEmailPassword(
       {required String email,
@@ -165,8 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           context: context);
                       print(user);
                       if (user != null) {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
                       }
                     },
                     child: const Text(
@@ -211,8 +248,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () async {
+                    _signInWithGoogle();
                     final googleUser = await _googleSignIn.signIn();
                     if (googleUser != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
                       // Successfully authenticated with Google
                       // TODO: Add code to handle authenticated user
                     }

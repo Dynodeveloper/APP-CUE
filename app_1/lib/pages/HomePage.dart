@@ -6,19 +6,23 @@ import 'package:acrgis_app/pages/exposig.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance; //variables respecto a autenticacion en firebase
+    User? user = _auth.currentUser; //usuario
+    String name = user?.displayName ?? ""; //nombre 
+    String email = user?.email ?? ""; //email
+    final String? photoUrl = FirebaseAuth.instance.currentUser?.photoURL; //foto
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuth.instance.authStateChanges(), //recibe cambios en estado de la sesion
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         final bool isLoggedIn = snapshot.hasData;
 
         return MaterialApp(
           title: 'ArcgisAPP',
-          home: isLoggedIn ? HomePage() : LoginPage(),
+          home: isLoggedIn ? HomePage() : LoginPage(), //si se encuentra logeado envia a esta pagina, de lo contrario regresa al incio de sesion
         );
       },
     );
@@ -30,13 +34,24 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  double profileHeight = 144;
-  final double coverHeight = 200;
-  var currentPage = DrawerSections.Inicio;
-  User? user;
+enum DrawerSections { //definicio de las secciones del drawer
+  Inicio,
+  ExpoSIG,
+  Agenda,
+  notes,
+  settings,
+  notifications,
+  Encuesta,
+  Logout,
+}
 
-  Future<void> _signOut() async {
+
+class _HomePageState extends State<HomePage> {
+  double profileHeight = 144; //definicio de variables utilizadas despues
+  final double coverHeight = 200;
+  var currentPage = DrawerSections.Inicio; //define la pagina actual inicial
+
+  Future<void> _signOut() async { //funcion futura para el boton de sign out
     await _auth.signOut(); // Cerrar sesión en Firebase Auth
     Navigator.pushReplacement(
       // Navegar a la página de inicio de sesión
@@ -45,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget CoverImage() => Container(
+  Widget CoverImage() => Container( //widget encargado de la imagen de fondo de la pagina principal
         color: Colors.grey,
         child: Image.network(
           'https://www.esri.com/content/dam/esrisites/en-us/media/social-media/social-sharing-image-default.jpg',
@@ -54,13 +69,14 @@ class _HomePageState extends State<HomePage> {
           fit: BoxFit.cover,
         ),
       );
-  Widget ProfileImage() => CircleAvatar(
+
+  Widget ProfileImage() => CircleAvatar( //widget encargado de la la imagen de perfil encontrada en la pagina principal
         radius: profileHeight / 2,
         backgroundColor: Colors.blueGrey,
-        backgroundImage: NetworkImage(
-            'https://img-15.stickers.cloud/packs/ebd6837a-ec38-4380-b602-424eba685f7e/webp/0cf03a16-93ae-4a68-bbf8-92a0f92b9fe3.webp'),
+        backgroundImage: NetworkImage(photoUrl ?? ''), //linkeo a la imagen existente en la cuenta del usuario (google o microsoft)
       );
-  Widget buildTop() {
+
+  Widget buildTop() {  //widget encargado del contenido de la parte superior de la pagina de usuario o pagina principal
     final top = coverHeight - profileHeight / 2;
     final bottom = profileHeight / 2;
     return Stack(
@@ -79,13 +95,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildContent() {
+  Widget buildContent() {   //widget encargado del contenido de usuario en la pagina principal
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Text('Juan gutierrez', style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),)),
+          Center(
+            child: Text(
+              name,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Center(
+            child: Text(
+              email,
+            ),
+          ),
           const SizedBox(
             height: 16,
           ),
@@ -109,19 +138,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var container;
-    if (currentPage == DrawerSections.Inicio) {
+    if (currentPage == DrawerSections.Inicio) { //realiza los condicionales y funciones de cada seccion del drawer
       user = _auth.currentUser;
       container = Scaffold(
         body: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            buildTop(),
-            buildContent(),
+            buildTop(), //llama al widget encargado de la parte superior
+            buildContent(), //llama al widget encargado del contenido 
           ],
         ),
       );
     } else if (currentPage == DrawerSections.ExpoSIG) {
-      container = ExpoSIG();
+      container = ExpoSIG(); //redirecciona a la pagina Exposig
     } else if (currentPage == DrawerSections.Agenda) {
       container = Agenda();
     } else if (currentPage == DrawerSections.notes) {
@@ -135,7 +164,11 @@ class _HomePageState extends State<HomePage> {
     } else if (currentPage == DrawerSections.Logout) {
       container = LoginPage();
     }
-    return Scaffold(
+    //si se desea agregar  otra pagina se realizaria asi: 
+    //} else if (currentPage == DrawerSections.Logout) {container = "funcion o clase a llamar"();}
+    
+      
+    return Scaffold(  //diseño de el app drawer
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 43, 43, 43),
         title: Text("CUE APP"),
@@ -157,7 +190,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget MyDrawerList() {
+  Widget MyDrawerList() {  //crea el widget de la vista del drawer
     return Container(
       padding: EdgeInsets.only(
         top: 15,
@@ -165,10 +198,11 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         // shows the list of menu drawer
         children: [
-          menuItem(1, "Inicio", Icons.home,
-              currentPage == DrawerSections.Inicio ? true : false),
+          menuItem(1, "Inicio", Icons.home, //define nombre e icono de la opcion
+              currentPage == DrawerSections.Inicio ? true : false), //se asegura si la pagina actual pertenece a una seccion del drawer
           menuItem(2, "ExpoSIG", Icons.workspaces_filled,
               currentPage == DrawerSections.ExpoSIG ? true : false),
+              Divider(),
           menuItem(3, "Agenda", Icons.event,
               currentPage == DrawerSections.Agenda ? true : false),
           menuItem(4, "Notes", Icons.event,
@@ -188,7 +222,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget menuItem(int id, String title, IconData icon, bool selected) {
+  Widget menuItem(int id, String title, IconData icon, bool selected) { //agrega el estilo de seleccionado a la opcion actual del drawer
     return Material(
       color: selected ? Color.fromARGB(255, 14, 106, 167) : Colors.transparent,
       child: InkWell(
@@ -209,7 +243,7 @@ class _HomePageState extends State<HomePage> {
               currentPage = DrawerSections.notifications;
             } else if (id == 7) {
               currentPage = DrawerSections.Encuesta;
-            } else if (id == 8) {
+            } else if (id == 8) { //si se presiona la opcion de deslogeo regresa a la pagina de inicio de sesion y deslogea la cuenta
               _signOut();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => LoginPage()));
@@ -245,15 +279,5 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-enum DrawerSections {
-  Inicio,
-  ExpoSIG,
-  Agenda,
-  notes,
-  settings,
-  notifications,
-  Encuesta,
-  Logout,
-}
-//widgets pagina inicial
+
 

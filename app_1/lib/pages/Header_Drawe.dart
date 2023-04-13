@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+//acá se crea el header del drawer
 
 class MyHeaderDrawer extends StatefulWidget {
   @override
@@ -12,7 +13,10 @@ class MyHeaderDrawer extends StatefulWidget {
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final String? name = FirebaseAuth.instance.currentUser?.displayName; //se llama a la informacion de el usuario en firebase
+    final String? photoUrl = FirebaseAuth.instance.currentUser?.photoURL;
+    final String? email = FirebaseAuth.instance.currentUser?.email;
+    return Container( //estilo del drawer
       color: Color.fromARGB(255, 43, 43, 43),
       width: double.infinity,
       height: 255,
@@ -23,28 +27,14 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Color.fromARGB(255, 43, 43, 43)),
-            accountEmail: const EmailWidget(),
-            currentAccountPicture: const CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://img-15.stickers.cloud/packs/ebd6837a-ec38-4380-b602-424eba685f7e/webp/0cf03a16-93ae-4a68-bbf8-92a0f92b9fe3.webp',
-              ),
+            accountEmail: Text(email ?? 'email de usuario'), //muestra el email del usuario
+            currentAccountPicture:  CircleAvatar(
+              backgroundImage: NetworkImage(photoUrl ?? ''), //se llama la imagen de perfil encontrada en el perfil de firebase
             ),
-            accountName: null,
+             accountName: Text(name ?? 'Nombre de usuario'), //se llama al nombre del usuario en firebase
           ),
         ],
       ),
     );
-  }
-}
-
-
-class EmailWidget extends StatelessWidget {
-  const EmailWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final User? user = FirebaseAuth.instance.currentUser;
-
-    return Text(user?.email ?? 'Correo electrónico');
   }
 }
