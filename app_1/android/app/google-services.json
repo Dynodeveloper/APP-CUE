@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "158536310200",
+    "project_id": "arcgis-app",
+    "storage_bucket": "arcgis-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158536310200:android:bf30b6e1ea0d59c929834d",
+        "android_client_info": {
+          "package_name": "com.example.arcgis_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158536310200-nqu5bjrb43fols92vu0rc02mvrv6vgcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoEXdwsHK3lWFgYNvC6Gm5c3N46cQlVaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158536310200-nqu5bjrb43fols92vu0rc02mvrv6vgcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
