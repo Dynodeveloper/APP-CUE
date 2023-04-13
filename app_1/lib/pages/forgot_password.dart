@@ -34,14 +34,10 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
 
   Future<void> _register() async {
     try {
-      final UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+      await _auth.sendPasswordResetEmail(email: _emailController.text.trim());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Correo enviado con exito'),
+          content: Text('Correo enviado con éxito'),
         ),
       );
       Navigator.pop(context); // Vuelve a la pantalla de inicio de sesión
@@ -74,7 +70,8 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
               decoration: const InputDecoration(
                 hintStyle: TextStyle(color: Colors.white),
                 hintText: "Email",
-                prefixIcon: Icon(Icons.mail, color: Color.fromARGB(255, 255, 255, 255)),
+                prefixIcon:
+                    Icon(Icons.mail, color: Color.fromARGB(255, 255, 255, 255)),
               ),
             ),
             const SizedBox(
@@ -82,7 +79,7 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
             ),
             ElevatedButton(
               onPressed: _register,
-              child: Text('Reestablecer'),
+              child: Text('Enviar correo'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 14, 106, 167),
               ),

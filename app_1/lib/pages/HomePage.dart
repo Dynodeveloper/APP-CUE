@@ -6,23 +6,27 @@ import 'package:acrgis_app/pages/exposig.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance; //variables respecto a autenticacion en firebase
-    User? user = _auth.currentUser; //usuario
-    String name = user?.displayName ?? ""; //nombre 
-    String email = user?.email ?? ""; //email
-    final String? photoUrl = FirebaseAuth.instance.currentUser?.photoURL; //foto
+final FirebaseAuth _auth =
+    FirebaseAuth.instance; //variables respecto a autenticacion en firebase
+User? user = _auth.currentUser; //usuario
+String name = user?.displayName ?? ""; //nombre
+String email = user?.email ?? ""; //email
+final String? photoUrl = FirebaseAuth.instance.currentUser?.photoURL; //foto
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(), //recibe cambios en estado de la sesion
+      stream: FirebaseAuth.instance
+          .authStateChanges(), //recibe cambios en estado de la sesion
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         final bool isLoggedIn = snapshot.hasData;
 
         return MaterialApp(
           title: 'ArcgisAPP',
-          home: isLoggedIn ? HomePage() : LoginPage(), //si se encuentra logeado envia a esta pagina, de lo contrario regresa al incio de sesion
+          home: isLoggedIn
+              ? HomePage()
+              : LoginPage(), //si se encuentra logeado envia a esta pagina, de lo contrario regresa al incio de sesion
         );
       },
     );
@@ -34,7 +38,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-enum DrawerSections { //definicio de las secciones del drawer
+enum DrawerSections {
+  //definicio de las secciones del drawer
   Inicio,
   ExpoSIG,
   Agenda,
@@ -45,13 +50,13 @@ enum DrawerSections { //definicio de las secciones del drawer
   Logout,
 }
 
-
 class _HomePageState extends State<HomePage> {
   double profileHeight = 144; //definicio de variables utilizadas despues
   final double coverHeight = 200;
   var currentPage = DrawerSections.Inicio; //define la pagina actual inicial
 
-  Future<void> _signOut() async { //funcion futura para el boton de sign out
+  Future<void> _signOut() async {
+    //funcion futura para el boton de sign out
     await _auth.signOut(); // Cerrar sesión en Firebase Auth
     Navigator.pushReplacement(
       // Navegar a la página de inicio de sesión
@@ -60,7 +65,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget CoverImage() => Container( //widget encargado de la imagen de fondo de la pagina principal
+  Widget CoverImage() => Container(
+        //widget encargado de la imagen de fondo de la pagina principal
         color: Colors.grey,
         child: Image.network(
           'https://www.esri.com/content/dam/esrisites/en-us/media/social-media/social-sharing-image-default.jpg',
@@ -70,13 +76,16 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  Widget ProfileImage() => CircleAvatar( //widget encargado de la la imagen de perfil encontrada en la pagina principal
+  Widget ProfileImage() => CircleAvatar(
+        //widget encargado de la la imagen de perfil encontrada en la pagina principal
         radius: profileHeight / 2,
         backgroundColor: Colors.blueGrey,
-        backgroundImage: NetworkImage(photoUrl ?? ''), //linkeo a la imagen existente en la cuenta del usuario (google o microsoft)
+        backgroundImage: NetworkImage(photoUrl ??
+            ''), //linkeo a la imagen existente en la cuenta del usuario (google o microsoft)
       );
 
-  Widget buildTop() {  //widget encargado del contenido de la parte superior de la pagina de usuario o pagina principal
+  Widget buildTop() {
+    //widget encargado del contenido de la parte superior de la pagina de usuario o pagina principal
     final top = coverHeight - profileHeight / 2;
     final bottom = profileHeight / 2;
     return Stack(
@@ -95,7 +104,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildContent() {   //widget encargado del contenido de usuario en la pagina principal
+  Widget buildContent() {
+    //widget encargado del contenido de usuario en la pagina principal
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 48),
       child: Column(
@@ -138,14 +148,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var container;
-    if (currentPage == DrawerSections.Inicio) { //realiza los condicionales y funciones de cada seccion del drawer
+    if (currentPage == DrawerSections.Inicio) {
+      //realiza los condicionales y funciones de cada seccion del drawer
       user = _auth.currentUser;
       container = Scaffold(
         body: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             buildTop(), //llama al widget encargado de la parte superior
-            buildContent(), //llama al widget encargado del contenido 
+            buildContent(), //llama al widget encargado del contenido
           ],
         ),
       );
@@ -164,11 +175,11 @@ class _HomePageState extends State<HomePage> {
     } else if (currentPage == DrawerSections.Logout) {
       container = LoginPage();
     }
-    //si se desea agregar  otra pagina se realizaria asi: 
+    //si se desea agregar  otra pagina se realizaria asi:
     //} else if (currentPage == DrawerSections.Logout) {container = "funcion o clase a llamar"();}
-    
-      
-    return Scaffold(  //diseño de el app drawer
+
+    return Scaffold(
+      //diseño de el app drawer
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 43, 43, 43),
         title: Text("CUE APP"),
@@ -190,7 +201,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget MyDrawerList() {  //crea el widget de la vista del drawer
+  Widget MyDrawerList() {
+    //crea el widget de la vista del drawer
     return Container(
       padding: EdgeInsets.only(
         top: 15,
@@ -198,11 +210,16 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         // shows the list of menu drawer
         children: [
-          menuItem(1, "Inicio", Icons.home, //define nombre e icono de la opcion
-              currentPage == DrawerSections.Inicio ? true : false), //se asegura si la pagina actual pertenece a una seccion del drawer
+          menuItem(
+              1,
+              "Inicio",
+              Icons.home, //define nombre e icono de la opcion
+              currentPage == DrawerSections.Inicio
+                  ? true
+                  : false), //se asegura si la pagina actual pertenece a una seccion del drawer
           menuItem(2, "ExpoSIG", Icons.workspaces_filled,
               currentPage == DrawerSections.ExpoSIG ? true : false),
-              Divider(),
+          Divider(),
           menuItem(3, "Agenda", Icons.event,
               currentPage == DrawerSections.Agenda ? true : false),
           menuItem(4, "Notes", Icons.event,
@@ -217,12 +234,15 @@ class _HomePageState extends State<HomePage> {
               currentPage == DrawerSections.Encuesta ? true : false),
           menuItem(8, "Sign Out", Icons.feedback_outlined,
               currentPage == DrawerSections.Logout ? true : false),
+          //si se desea agregar otra pagina tambien e debo agregar acá siguiendo la logica y el numero del anterior algo asi:
+          // menuItem(9, "nuevapagina", Icons.feedback_outlined,currentPage == DrawerSections.nuevapagina ? true : false),
         ],
       ),
     );
   }
 
-  Widget menuItem(int id, String title, IconData icon, bool selected) { //agrega el estilo de seleccionado a la opcion actual del drawer
+  Widget menuItem(int id, String title, IconData icon, bool selected) {
+    //agrega el estilo de seleccionado a la opcion actual del drawer
     return Material(
       color: selected ? Color.fromARGB(255, 14, 106, 167) : Colors.transparent,
       child: InkWell(
@@ -243,7 +263,12 @@ class _HomePageState extends State<HomePage> {
               currentPage = DrawerSections.notifications;
             } else if (id == 7) {
               currentPage = DrawerSections.Encuesta;
-            } else if (id == 8) { //si se presiona la opcion de deslogeo regresa a la pagina de inicio de sesion y deslogea la cuenta
+            }
+            //si se desea agregar una nueva pagina se debe agregar debajo de esta y encima de la de deslogeo de esta forma:
+            //else if (id == 8 "se cambiaria este numero acá y en el drawerlist anterior y se modificarian los numeros siguientes si asi corresponde") { currentPage = DrawerSections.otrapagina;}
+            
+            else if (id == 8) {
+              //si se presiona la opcion de deslogeo regresa a la pagina de inicio de sesion y deslogea la cuenta
               _signOut();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => LoginPage()));
@@ -278,6 +303,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
