@@ -20,11 +20,10 @@ class _LoginPage extends State<LoginPage> {
     return firebaseApp;
   }
 
-
   @override //fondo base
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 43, 43, 43), //color de fondo
+      backgroundColor: Color.fromARGB(255, 73, 89, 112), //color de fondo
       body: FutureBuilder(
         future: _initializeFirebase(),
         builder: (context, snapshot) {
@@ -111,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     //crear controlador de texto ingresado
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 43, 43, 43),
+        backgroundColor: Color.fromARGB(255, 73, 89, 112),
         body: Center(
             child: SingleChildScrollView(
                 child: Padding(
@@ -146,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: "email",
                   hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: Icon(Icons.mail,
-                      color: Color.fromARGB(255, 14, 106, 167)),
+                      color: Color.fromARGB(255, 24, 54, 84)),
                 ),
                 style: TextStyle(color: Colors.white),
               ),
@@ -160,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: "Contraseña",
                   hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: Icon(Icons.lock,
-                      color: Color.fromARGB(255, 14, 106, 167)),
+                      color: Color.fromARGB(255, 24, 54, 84)),
                 ),
                 style: TextStyle(color: Colors.white),
               ),
@@ -177,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: const Text(
                     'olvidaste tu contraseña?',
-                    style: TextStyle(color: Colors.blueGrey),
+                    style: TextStyle(color: Color.fromARGB(225,115, 168, 208)),
                   )),
               const SizedBox(
                 height: 30.0,

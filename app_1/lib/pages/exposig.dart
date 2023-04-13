@@ -12,8 +12,8 @@ class ExpoSIG extends StatefulWidget {
 
 class _ExpoSIGState extends State<ExpoSIG> {
   final icono1 = Icons.location_on;
-  final icono2 = Icons.location_on;
 
+  
   Widget _buildDialog(BuildContext context, String title, String description,
       String imageAsset) {
     return AlertDialog(
@@ -89,7 +89,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),
@@ -111,7 +111,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),
@@ -133,7 +133,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),
@@ -155,7 +155,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),
@@ -177,7 +177,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),
@@ -199,7 +199,7 @@ class _ExpoSIGState extends State<ExpoSIG> {
                 );
               },
               child: Icon(
-                icono2,
+                icono1,
                 size: 50,
                 color: Colors.green,
               ),

@@ -17,7 +17,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
     final String? photoUrl = FirebaseAuth.instance.currentUser?.photoURL;
     final String? email = FirebaseAuth.instance.currentUser?.email;
     return Container( //estilo del drawer
-      color: Color.fromARGB(255, 43, 43, 43),
+      color: Color.fromARGB(255, 73, 89, 112),
       width: double.infinity,
       height: 255,
       padding: EdgeInsets.only(top: 20.0),
@@ -26,7 +26,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
          mainAxisSize: MainAxisSize.min,
         children: [
           UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Color.fromARGB(255, 43, 43, 43)),
+            decoration: BoxDecoration(color: Color.fromARGB(255, 73, 89, 112)),
             accountEmail: Text(email ?? 'email de usuario'), //muestra el email del usuario
             currentAccountPicture:  CircleAvatar(
               backgroundImage: NetworkImage(photoUrl ?? ''), //se llama la imagen de perfil encontrada en el perfil de firebase
@@ -38,3 +38,4 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
     );
   }
 }
+
