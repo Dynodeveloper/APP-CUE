@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color.fromARGB(255, 43, 43, 43),Color.fromARGB(255, 73, 89, 112), ],
+          colors: [Color.fromARGB(255, 24, 54, 84),Color.fromARGB(255, 73, 89, 112) ],
           begin: const FractionalOffset(0, 0),
           end: const FractionalOffset(1.0, 0.0),
           stops: const [0.0, 1.0],
@@ -55,10 +55,10 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 300,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromARGB(157, 43, 43, 43),
+                color: Color.fromARGB(255, 255, 255, 255),
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(168, 0, 0, 0).withOpacity(0.3),
+                    color: Color.fromARGB(168, 43, 43, 43).withOpacity(0.3),
                     blurRadius: 1.0,
                     offset: const Offset(45.0, 3.0),
                     spreadRadius: 0.0,

@@ -1,121 +1,112 @@
 import 'package:flutter/material.dart';
 
 class Encuesta extends StatefulWidget {
+  const Encuesta({Key? key}) : super(key: key);
+
   @override
-  _EncuestaPageState createState() => _EncuestaPageState();
+  _EncuestaState createState() => _EncuestaState();
 }
 
-class _EncuestaPageState extends State<Encuesta> {
-  int _puntuacion = 3;
-  String _opcionSeleccionada = '';
-  TextEditingController _controller = TextEditingController();
-
-  List<String> _opciones = [
-    'Opción 1',
-    'Opción 2',
-    'Opción 3',
-  ];
-
-  void _enviarRespuestas() {
-    // Aquí puedes agregar la lógica para enviar las respuestas de la encuesta
-  }
+class _EncuestaState extends State<Encuesta> {
+  int _valorPregunta1 = 3; // Valor inicial de la pregunta 1
+  int? _valorPregunta2; // Valor seleccionado de la pregunta 2
+  String? _valorPregunta3; // Valor ingresado en la pregunta 3
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Primera pregunta
-            Text(
-              '¿que te pareciò el evento?',
-              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+            const Text(
+              'Pregunta 1: ¿Cómo te sientes hoy?',
+              style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildPuntuacionButton(1),
-                _buildPuntuacionButton(2),
-                _buildPuntuacionButton(3),
-                _buildPuntuacionButton(4),
-                _buildPuntuacionButton(5),
+                IconButton(
+                  icon: const Icon(Icons.sentiment_very_satisfied),
+                  onPressed: () => setState(() => _valorPregunta1 = 5),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sentiment_satisfied),
+                  onPressed: () => setState(() => _valorPregunta1 = 4),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sentiment_neutral),
+                  onPressed: () => setState(() => _valorPregunta1 = 3),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sentiment_dissatisfied),
+                  onPressed: () => setState(() => _valorPregunta1 = 2),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.sentiment_very_dissatisfied),
+                  onPressed: () => setState(() => _valorPregunta1 = 1),
+                ),
               ],
             ),
-            SizedBox(height: 32),
-
-            // Segunda pregunta
-            Text(
-              '¿Qué te gustaría hacer hoy?',
-              style: TextStyle(fontSize: 20),
+            const SizedBox(height: 16),
+            const Text(
+              'Pregunta 2: ¿Cuál es tu color favorito?',
+              style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 16),
-            for (String opcion in _opciones)
-              RadioListTile(
-                title: Text(opcion),
-                value: opcion,
-                groupValue: _opcionSeleccionada,
-                onChanged: (value) {
-                  setState(() {
-                    _opcionSeleccionada = value as String;
-                  });
-                },
-              ),
-            SizedBox(height: 32),
-
-            // Tercera pregunta
-            Text(
-              '¿Algún comentario adicional?',
-              style: TextStyle(fontSize: 20),
+            const SizedBox(height: 8),
+            RadioListTile<int>(
+              title: const Text('Rojo'),
+              value: 1,
+              groupValue: _valorPregunta2,
+              onChanged: (value) => setState(() => _valorPregunta2 = value),
             ),
-            SizedBox(height: 10),
+            RadioListTile<int>(
+              title: const Text('Azul'),
+              value: 2,
+              groupValue: _valorPregunta2,
+              onChanged: (value) => setState(() => _valorPregunta2 = value),
+            ),
+            RadioListTile<int>(
+              title: const Text('Verde'),
+              value: 3,
+              groupValue: _valorPregunta2,
+              onChanged: (value) => setState(() => _valorPregunta2 = value),
+            ),
+            RadioListTile<int>(
+              title: const Text('Amarillo'),
+              value: 4,
+              groupValue: _valorPregunta2,
+              onChanged: (value) => setState(() => _valorPregunta2 = value),
+            ),
+            RadioListTile<int>(
+              title: const Text('Morado'),
+              value: 5,
+              groupValue: _valorPregunta2,
+              onChanged: (value) => setState(() => _valorPregunta2 = value),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Pregunta 3: ¿Cuál es tu opinión acerca de esta encuesta?',
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 8),
             TextField(
-              controller: _controller,
-              maxLines: null,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
+                hintText: 'Escribe tu opinión aquí',
                 border: OutlineInputBorder(),
-                hintText: 'Escribe aquí tu comentario',
               ),
+              onChanged: (value) => setState(() => _valorPregunta3 = value),
             ),
-            SizedBox(height: 25),
-
-            // Botón para enviar las respuestas
+            const SizedBox(height: 32),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 24, 54, 84)),
-              onPressed: () { _enviarRespuestas();
-                // Aquí puedes hacer lo que quieras con las respuestas
+              child: const Text('Enviar'),
+              onPressed: () {
+                // Aquí se puede agregar la lógica para enviar las respuestas de la encuesta
               },
-              child: Text(
-                'Enviar',
-                style: TextStyle(color: Colors.white),
-              ),
             ),
           ],
         ),
-      );
-  }
-
-  Widget _buildPuntuacionButton(int puntuacion) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _puntuacion = puntuacion;
-        });
-      },
-      child: Column(
-        children: [
-          Icon(
-            _puntuacion >= puntuacion
-                ? Icons.sentiment_very_satisfied
-                : Icons.sentiment_very_dissatisfied,
-            size: 50,
-            color: _puntuacion >= puntuacion ? Colors.green : Colors.red,
-          ),
-          Text(puntuacion.toString()),
-        ],
       ),
     );
   }

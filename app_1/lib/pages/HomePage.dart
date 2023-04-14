@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth =
-    FirebaseAuth.instance; //variables respecto a autenticacion en firebase
+FirebaseAuth.instance; //variables respecto a autenticacion en firebase
 User? user = _auth.currentUser; //usuario
 String name = user?.displayName ?? ""; //nombre
 String email = user?.email ?? ""; //email
@@ -81,8 +81,7 @@ class _HomePageState extends State<HomePage> {
         //widget encargado de la la imagen de perfil encontrada en la pagina principal
         radius: profileHeight / 2,
         backgroundColor: Colors.blueGrey,
-        backgroundImage: NetworkImage(photoUrl ??
-            ''), //linkeo a la imagen existente en la cuenta del usuario (google o microsoft)
+        backgroundImage: NetworkImage(photoUrl ??''), //linkeo a la imagen existente en la cuenta del usuario (google o microsoft)
       );
 
   Widget buildTop() {
@@ -105,9 +104,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildContent() {
-    //define el widget encargado del contenido o informacion de usuario
-    //widget encargado del contenido de usuario en la pagina principal
+  Widget buildContent() { //define el widget encargado del contenido o informacion de usuario
+
     return Container(
         margin: EdgeInsets.symmetric(
             vertical: 2), // Agrega un margen vertical alrededor del contenedor
