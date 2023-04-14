@@ -3,6 +3,7 @@ import 'package:acrgis_app/pages/Login.dart';
 import 'package:acrgis_app/pages/agenda.dart';
 import 'package:acrgis_app/pages/encuesta.dart';
 import 'package:acrgis_app/pages/exposig.dart';
+import 'package:acrgis_app/pages/invitados.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -43,7 +44,7 @@ enum DrawerSections {
   Inicio,
   ExpoSIG,
   Agenda,
-  notes,
+  Invitados,
   settings,
   notifications,
   Encuesta,
@@ -239,8 +240,8 @@ class _HomePageState extends State<HomePage> {
       container = ExpoSIG(); //redirecciona a la pagina Exposig
     } else if (currentPage == DrawerSections.Agenda) {
       container = Agenda();
-    } else if (currentPage == DrawerSections.notes) {
-      //container = NotesPage();
+    } else if (currentPage == DrawerSections.Invitados) {
+      container = Invitados();
     } else if (currentPage == DrawerSections.settings) {
       //container = SettingsPage();
     } else if (currentPage == DrawerSections.notifications) {
@@ -297,8 +298,8 @@ class _HomePageState extends State<HomePage> {
           Divider(),
           menuItem(3, "Agenda", Icons.event,
               currentPage == DrawerSections.Agenda ? true : false),
-          menuItem(4, "Notes", Icons.event,
-              currentPage == DrawerSections.notes ? true : false),
+          menuItem(4, "Invitados", Icons.work,
+              currentPage == DrawerSections.Invitados ? true : false),
           Divider(),
           menuItem(5, "Settings", Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
@@ -331,7 +332,7 @@ class _HomePageState extends State<HomePage> {
             } else if (id == 3) {
               currentPage = DrawerSections.Agenda;
             } else if (id == 4) {
-              currentPage = DrawerSections.notes;
+              currentPage = DrawerSections.Invitados;
             } else if (id == 5) {
               currentPage = DrawerSections.settings;
             } else if (id == 6) {

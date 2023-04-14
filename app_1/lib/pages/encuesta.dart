@@ -6,129 +6,116 @@ class Encuesta extends StatefulWidget {
 }
 
 class _EncuestaPageState extends State<Encuesta> {
-  late int _respuesta1 = 1;
-  late String _respuesta2 = "";
-  late String _respuesta3 = "";
+  int _puntuacion = 3;
+  String _opcionSeleccionada = '';
+  TextEditingController _controller = TextEditingController();
+
+  List<String> _opciones = [
+    'Opción 1',
+    'Opción 2',
+    'Opción 3',
+  ];
+
+  void _enviarRespuestas() {
+    // Aquí puedes agregar la lógica para enviar las respuestas de la encuesta
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: EdgeInsets.all(16.0),
-              alignment: Alignment.center,
-              child: Text(
-                'Encuesta',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            // Primera pregunta
+            Text(
+              '¿que te pareciò el evento?',
+              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildPuntuacionButton(1),
+                _buildPuntuacionButton(2),
+                _buildPuntuacionButton(3),
+                _buildPuntuacionButton(4),
+                _buildPuntuacionButton(5),
+              ],
+            ),
+            SizedBox(height: 32),
+
+            // Segunda pregunta
+            Text(
+              '¿Qué te gustaría hacer hoy?',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 16),
+            for (String opcion in _opciones)
+              RadioListTile(
+                title: Text(opcion),
+                value: opcion,
+                groupValue: _opcionSeleccionada,
+                onChanged: (value) {
+                  setState(() {
+                    _opcionSeleccionada = value as String;
+                  });
+                },
+              ),
+            SizedBox(height: 32),
+
+            // Tercera pregunta
+            Text(
+              '¿Algún comentario adicional?',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _controller,
+              maxLines: null,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Escribe aquí tu comentario',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Que tan satifecho esta con los conferencistas?',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Wrap(
-                    spacing: 5,
-                    runSpacing: 5,
-                    children: List.generate(
-                      10,
-                      (index) => ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _respuesta1 = index + 1;
-                          });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 45,
-                          width: 40,
-                          child: Text('${index + 1}'),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          backgroundColor: _respuesta1 == index + 1
-                              ? Color.fromARGB(255, 14, 106, 167)
-                              : Color.fromARGB(255, 43, 43, 43),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Que pabellón le agradó mas?:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  RadioListTile(
-                    title: Text('Pabellón 1'),
-                    value: 'Pabellón 1',
-                    groupValue: _respuesta2,
-                    onChanged: (value) {
-                      setState(() {
-                        _respuesta2 = value!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text('Manga Site'),
-                    value: 'Manga Site',
-                    groupValue: _respuesta2,
-                    onChanged: (value) {
-                      setState(() {
-                        _respuesta2 = value!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text('Geek Planet'),
-                    value: 'Geek Planet',
-                    groupValue: _respuesta2,
-                    onChanged: (value) {
-                      setState(() {
-                        _respuesta2 = value!;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Alguna recomendacion o comentario?:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  TextField(
-                    onChanged: (value) {
-                      _respuesta3 = value;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Escriba su respuesta aquí',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 43, 43, 43)),
-                    onPressed: () {
-                      // Aquí puedes hacer lo que quieras con las respuestas
-                      print('Respuesta 1: $_respuesta1');
-                      print('Respuesta 2: $_respuesta2');
-                      print('Respuesta 3: $_respuesta3');
-                    },
-                    child: Text('Enviar',style: TextStyle(color: Colors.white),),
-                  ),
-                ],
+            SizedBox(height: 25),
+
+            // Botón para enviar las respuestas
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 24, 54, 84)),
+              onPressed: () { _enviarRespuestas();
+                // Aquí puedes hacer lo que quieras con las respuestas
+              },
+              child: Text(
+                'Enviar',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
         ),
+      );
+  }
+
+  Widget _buildPuntuacionButton(int puntuacion) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _puntuacion = puntuacion;
+        });
+      },
+      child: Column(
+        children: [
+          Icon(
+            _puntuacion >= puntuacion
+                ? Icons.sentiment_very_satisfied
+                : Icons.sentiment_very_dissatisfied,
+            size: 50,
+            color: _puntuacion >= puntuacion ? Colors.green : Colors.red,
+          ),
+          Text(puntuacion.toString()),
+        ],
       ),
     );
   }
