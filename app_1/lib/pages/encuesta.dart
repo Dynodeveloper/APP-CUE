@@ -15,7 +15,8 @@ class _EncuestaState extends State<Encuesta> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+        body: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,6 +109,6 @@ class _EncuestaState extends State<Encuesta> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
